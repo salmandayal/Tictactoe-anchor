@@ -11,7 +11,8 @@ tic_tac_toc = "3kK4ni8Z9TdjTz87HWcpG8ps9Ps29GpWAz7mJtWEKQfa"
 url = "https://api.apr.dev"
 
 [provider]
-cluster = "Localnet"
+# cluster = "Localnet"
+cluster = "devnet"
 wallet = "/Users/apple/.config/solana/id.json"
 
 [scripts]

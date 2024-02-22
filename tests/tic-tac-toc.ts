@@ -41,4 +41,27 @@ describe("tic-tac-toc", () => {
       [null, null, null],
     ]);
   });
+
+  it("play game!", async () => {
+    const gameKeypair = anchor.web3.Keypair.generate();
+    const playerOne = (program.provider as anchor.AnchorProvider).wallet;
+    const playerTwo = anchor.web3.Keypair.generate();
+    await program.methods
+      .initialize(playerTwo.publicKey)
+      .accounts({
+        game: gameKeypair.publicKey,
+        playerOne: playerOne.publicKey,
+      })
+      .signers([gameKeypair])
+      .rpc();
+
+    await program.methods
+      .play({ row: 0, column: 0 })
+      .accounts({ game: gameKeypair.publicKey, player: playerTwo.publicKey })
+      .signers(playerTwo instanceof (anchor.Wallet as any) ? [] : [playerTwo])
+      .rpc();
+
+    let gameAccount = await program.account.game.fetch(gameKeypair.publicKey);
+    console.log(gameAccount);
+  });
 });
